@@ -19,10 +19,12 @@ subnets=(
 # Çıktı dosyasını sıfırlama
 > "$output_file"
 
-# Alt ağları bir diziye ekleyerek IP kontrolünü hızlandırma
-subnet_patterns=()
+# IP adreslerini silmek için bir regex deseni oluştur
+regex_patterns=()
 for subnet in "${subnets[@]}"; do
-    subnet_patterns+=("$(ipcalc -n "$subnet" | awk '/Network/ {print $2}')")
+    base_ip=$(echo "$subnet" | cut -d'/' -f1)
+    # CIDR notasyonu için 256'ya kadar IP'leri kapsayacak şekilde düzenli ifade oluştur
+    regex_patterns+=("${base_ip%.*}.[0-9]{1,3}")
 done
 
 # Filtreleme işlemi
@@ -32,16 +34,16 @@ done
         if [[ $line == add\ address=* ]]; then
             # IP adresini çıkar
             ip=$(echo "$line" | awk -F'=' '{print $2}' | awk '{print $1}')
-
-            # IP adresinin alt ağda olup olmadığını kontrol et
             should_filter=false
-            for subnet in "${subnet_patterns[@]}"; do
-                if [[ $ip == $subnet ]]; then
+            
+            # IP adresini regex desenleriyle kontrol et
+            for pattern in "${regex_patterns[@]}"; do
+                if [[ $ip =~ $pattern ]]; then
                     should_filter=true
                     break
                 fi
             done
-
+            
             # Eğer IP alt ağda değilse, satırı yaz
             if ! $should_filter; then
                 echo "$line"
@@ -53,7 +55,7 @@ done
     done < "$input_file"
 } > "$output_file"
 
-# IP adreslerini ekle
+# Alt ağları dosyaya ekle
 {
     for subnet in "${subnets[@]}"; do
         echo "add address=${subnet} list=Crowdsec timeout=23h"
