@@ -17,6 +17,7 @@ jobs:
         run: |
           chmod +x grabber/crowdsec_mikrotik
           grabber/crowdsec_mikrotik
+          mv ips.rsc Crowdsec_FreeBlacklist.rsc
           bash censys_botremove.sh
           
 
@@ -24,7 +25,6 @@ jobs:
         run: |
           git config --local user.email "${GIT_EMAIL}"
           git config --local user.name "ertugrulturan"
-          mv ips.rsc Crowdsec_FreeBlacklist.rsc
           git add Crowdsec_FreeBlacklist.rsc
           git commit -m "Update Crowdsec_FreeBlacklist.rsc"
           git push
