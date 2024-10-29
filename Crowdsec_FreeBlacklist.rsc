@@ -1,4 +1,5 @@
 /ip firewall address-list
+add address=1.2.3.4 list=Crowdsec timeout=23h
 add address=158.101.151.135 list=Crowdsec timeout=23h
 add address=187.119.191.48 list=Crowdsec timeout=23h
 add address=192.145.124.174 list=Crowdsec timeout=23h
