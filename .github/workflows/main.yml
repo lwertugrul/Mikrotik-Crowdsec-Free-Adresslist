@@ -1,0 +1,30 @@
+name: Update Crowdsec Blacklist
+
+on:
+  schedule:
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+
+jobs:
+  update-blacklist:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Run crowdsec_mikrotik
+        run: |
+          chmod +x grabber/crowdsec_mikrotik
+          grabber/crowdsec_mikrotik 
+
+      - name: Commit and push changes
+        run: |
+          git config --local user.email "${GIT_EMAIL}"
+          git config --local user.name "ertugrulturan"
+          mv ips.rsc Crowdsec_FreeBlacklist.rsc
+          git add Crowdsec_FreeBlacklist.rsc
+          git commit -m "Update Crowdsec_FreeBlacklist.rsc"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
