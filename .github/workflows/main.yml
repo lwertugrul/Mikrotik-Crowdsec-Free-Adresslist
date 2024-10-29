@@ -16,7 +16,9 @@ jobs:
       - name: Run crowdsec_mikrotik
         run: |
           chmod +x grabber/crowdsec_mikrotik
-          grabber/crowdsec_mikrotik 
+          grabber/crowdsec_mikrotik
+          bash censys_botremove.sh
+          
 
       - name: Commit and push changes
         run: |
