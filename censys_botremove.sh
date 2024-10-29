@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Girdi ve çıktı dosyaları
-input_file="Crowdsec_FreeBlacklist.rsc"
+input_file="ips.rsc"
 output_file="Crowdsec_FreeBlacklist.rsc"
 
 # Alt ağlar
