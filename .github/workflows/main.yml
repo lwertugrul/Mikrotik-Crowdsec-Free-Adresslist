@@ -13,13 +13,17 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
+      - name: Set up environment
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ipcalc
+
       - name: Run crowdsec_mikrotik
         run: |
           chmod +x grabber/crowdsec_mikrotik
           grabber/crowdsec_mikrotik
           bash censys_botremove.sh
           
-
       - name: Commit and push changes
         run: |
           git config --local user.email "${GIT_EMAIL}"
