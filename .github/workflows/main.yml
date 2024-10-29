@@ -16,9 +16,8 @@ jobs:
       - name: Run crowdsec_mikrotik
         run: |
           chmod +x grabber/crowdsec_mikrotik
-          grabber/crowdsec_mikrotik
-          mv ips.rsc Crowdsec_FreeBlacklist.rsc
-          bash censys_botremove.sh
+          grabber/crowdsec_mikrotik && sleep 2
+          bash censys_botremove.sh && sleep 5
           
 
       - name: Commit and push changes
