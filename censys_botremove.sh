@@ -2,7 +2,7 @@
 
 # Girdi ve çıktı dosyaları
 input_file="Crowdsec_FreeBlacklist.rsc"
-output_file="MCrowdsec_FreeBlacklist.rsc"
+output_file="Crowdsec_FreeBlacklist.rsc"
 
 # Alt ağlar
 subnets=(
